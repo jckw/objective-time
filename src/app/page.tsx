@@ -132,6 +132,7 @@ export default function Home() {
       <h1>
         {Math.round(p * 100)}% through the {mode}
       </h1>
+      <p>{100 - Math.round(p * 100)}% remaining</p>
     </div>
   )
 }

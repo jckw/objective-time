@@ -2,6 +2,7 @@
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import "./globals.css"
 import { useEffect } from "react"
 
 type FormData = {
@@ -81,11 +82,29 @@ export default function Home() {
   if (endMins < startMins) {
     endMins += 24 * 60
   }
+  if (currentMins < startMins) {
+    currentMins += 24 * 60
+  }
 
-  const p = (currentMins - startMins) / (endMins - startMins)
+  let p: number
+  let mode: "day" | "night"
+  if (currentMins > endMins) {
+    mode = "night"
+    p = (currentMins - endMins) / (endMins - startMins)
+  } else {
+    mode = "day"
+    p = (currentMins - startMins) / (endMins - startMins)
+  }
 
   return (
     <div>
+      <p>
+        <b>Objective Time</b> is a time system based around when you start and
+        end your waking day.
+      </p>
+
+      <hr />
+
       <label>
         Day start time
         <input {...register("dayStartTime")} onChange={handleStartTimeChange} />
@@ -110,7 +129,9 @@ export default function Home() {
         </div>
       </label>
 
-      <h1>{Math.round(p * 100)}%</h1>
+      <h1>
+        {Math.round(p * 100)}% through the {mode}
+      </h1>
     </div>
   )
 }

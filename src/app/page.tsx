@@ -90,11 +90,12 @@ export default function Home() {
   let mode: "day" | "night"
   if (currentMins > endMins) {
     mode = "night"
-    p = (currentMins - endMins) / (endMins - startMins)
+    p = (currentMins - endMins) / (24 * 60 - (endMins - startMins))
   } else {
     mode = "day"
     p = (currentMins - startMins) / (endMins - startMins)
   }
+  const displayP = Math.floor(p * 100)
 
   return (
     <div>
@@ -130,9 +131,9 @@ export default function Home() {
       </label>
 
       <h1>
-        {Math.round(p * 100)}% through the {mode}
+        {displayP}% through the {mode}
       </h1>
-      <p>{100 - Math.round(p * 100)}% remaining</p>
+      <p>{100 - displayP}% remaining</p>
     </div>
   )
 }
